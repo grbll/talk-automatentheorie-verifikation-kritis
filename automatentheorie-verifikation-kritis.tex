@@ -21,7 +21,7 @@
 \usepackage{graphicx}
 
 \usepackage{pgf, tikz}
-\usetikzlibrary{automata, arrows, arrows.meta, positioning, decorations.pathreplacing, decorations.pathmorphing}
+\usetikzlibrary{automata, arrows, arrows.meta, positioning, decorations.pathreplacing, decorations.pathmorphing, calc, fit}
 \usepackage{varwidth}
 \usepackage{color}
 \usepackage{geometry}
@@ -338,12 +338,14 @@ coltitle=sblau,
 \setbeamercolor{frametitle}{fg=theorie!35!white,bg=titlebg}
 
 \begin{frame}{Was sind diese Automaten?}
+	\visible<15->{
 	\begin{minipage}{\textwidth}
 		\begin{tcolorbox}[colframe=theorie, colback=white, valign=center, halign=center]
 			\visible<15->{$\text{\light{15}{A}} \mathrel{\hat{=}} \text{Aufnahme}$} \hfill
 			\visible<16->{$\text{\light{16}{B}} \mathrel{\hat{=}} \text{Bearbeitung}$} \hfill
 			\visible<17->{$\text{\light{17}{E}} \mathrel{\hat{=}} \text{Einreichung}$}
 		\end{tcolorbox}
+		}
 	\end{minipage}
 
 	\vspace{10pt}
@@ -372,25 +374,99 @@ coltitle=sblau,
 		\hfill%
 	\end{minipage}%
 	\begin{minipage}{.48\textwidth}%
-		\begin{tcolorbox}[colframe=theorie, colback=white, valign=center, halign=center, height=60pt]
-			\begin{tabular}{lc}
-				\visible<2->{\light{4}{A}\light{5}{B}\light{6}{E}}  & \visible<7->{\yes}  \\
-				\visible<8->{\light{10}{A}\shigh{11}{11}{rot2}{A}E} & \visible<12->{\no}  \\
-				\visible<13->{ABEAE}                                & \visible<14->{\yes} \\
-			\end{tabular}
-		\end{tcolorbox}
-		\begin{tcolorbox}[colframe=theorie, colback=white, height=103pt, valign=center, boxsep=0pt]
-			\scriptsize
-			\visible<19->{
-				\textit{%
-					Jede Aufnahme benötigt eine Einreichung, bevor eine neue Aufnahme erfolgt.
+		\visible<2->{
+			\begin{tcolorbox}[colframe=theorie, colback=white, valign=center, halign=center, height=60pt]
+				\begin{tabular}{lc}
+					\visible<2->{\light{4}{A}\light{5}{B}\light{6}{E}}  & \visible<7->{\yes}  \\
+					\visible<8->{\light{10}{A}\shigh{11}{11}{rot2}{A}E} & \visible<12->{\no}  \\
+					\visible<13->{ABEAE}                                & \visible<14->{\yes} \\
+				\end{tabular}
+			\end{tcolorbox}
+		}
+		\visible<19->{
+			\begin{tcolorbox}[colframe=theorie, colback=white, height=103pt, valign=center, boxsep=0pt]
+				\scriptsize
+				\visible<19->{
+					\textit{%
+						Jede Aufnahme benötigt eine Einreichung, bevor eine neue Aufnahme erfolgt.
+					}
 				}
-			}
-			\vfill
-			\visible<20->{\[|u|_A = |u|_E \text{ oder } |u|_A = |u|_E + 1\]}
-		\end{tcolorbox}
+				\vfill
+				\visible<20->{\[|u|_A = |u|_E \text{ oder } |u|_A = |u|_E + 1\]}
+			\end{tcolorbox}
+		}
 	\end{minipage}
 \end{frame}
 
+\begin{frame}{Verifikation mit Modelchecking}
+	\vfill
+	\begin{center}
+		\begin{tikzpicture}[
+				node distance=0.5cm and 1.5cm,
+				box/.style={
+						draw=theorie,
+						fill=white,
+						line width = 1.5pt,
+						rounded corners=3pt,
+						minimum width=4cm,
+						minimum height=0.8cm,
+						align=center,
+						inner sep=3pt,
+						font=\normalsize,
+					},
+				arrow/.style={->, thick, draw=theorie}
+			]
+
+
+			% Linke Spalte
+			\visible<1->{\node[box] (spec1) {\textbf{Spezifikation}};}
+			\visible<4->{\node[box, below=of spec1] (spec2) {Logik};}
+			\visible<5->{\node[box, below=of spec2] (spec3) {Automat $A_L$};}
+
+			% Rechte Spalte
+			\visible<2->{\node[box, right=of spec1] (real1) {\textbf{Realisation}};}
+			\visible<6->{\node[box, below=of real1] (real2) {Programm};}
+			\visible<7->{\node[box, below=of real2] (real3) {Automat $A_P$};}
+
+			% Gleichheitszeichen zwischen spec1 und real1
+			\visible<3->{\node at ($(spec1)!0.5!(real1)$) {\light{11}{\huge$\mathrel{\hat{=}}$}};}
+
+			% Pfeile
+			\visible<4->{\draw[arrow, AutomatonEdge] (spec1) -- (spec2);}
+			\visible<5->{\draw[arrow, AutomatonEdge] (spec2) -- (spec3);}
+			\visible<6->{\draw[arrow, AutomatonEdge] (real1) -- (real2);}
+			\visible<7->{\draw[arrow, AutomatonEdge] (real2) -- (real3);}
+
+			% Schnittfrage-Box
+			\visible<8->{
+				\node[fit=(spec3.east)(real3.west), inner sep=0pt] (fitbox) {};
+				\path let \p1 = (real3.east),
+				\p2 = (spec3.west),
+				\n1 = {\x1 - \x2} in
+				node[box, below=1.2cm of fitbox, minimum height=60pt, minimum width=\n1, text width=\n1-30pt] (check) {
+						\only<9->{
+							\scriptsize
+							\textit{Gibt es einen erfolgreichen Lauf des Programmautomaten,\\ der kein erfolgreicher Lauf des Logikautomaten ist?}\\[10pt]
+							\normalsize
+							\only<-9>{
+								\phantom{
+									$L(A_P) \cap \overline{L(A_L)} = \emptyset$?
+								}
+							}
+						}
+						\only<10->{
+							\normalsize
+							$L(A_P) \cap \overline{L(A_L)} = \emptyset$\light{11}{?}
+						}
+					};
+			}
+
+			% Pfeile zur Schnittfrage
+			\visible<8->{\draw[arrow, AutomatonEdge] (spec3.south) -- (check.north -| spec3.south);}
+			\visible<8->{\draw[arrow, AutomatonEdge] (real3.south) -- (check.north -| real3.south);}
+		\end{tikzpicture}
+	\end{center}
+	\vfill
+\end{frame}
 \end{document}
 
