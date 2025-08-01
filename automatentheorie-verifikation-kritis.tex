@@ -1,4 +1,5 @@
 \documentclass[11pt]{beamer}
+\usepackage{multimedia}
 \usepackage[ngerman]{babel}
 \beamertemplatenavigationsymbolsempty
 \useoutertheme[subsection=false]{miniframes}
@@ -28,6 +29,7 @@
 \usepackage{tcolorbox}
 \tcbuselibrary{xparse}
 \usepackage{multirow}
+
 \setbeamersize{text margin left=12.5mm,text margin right=10mm}
 %---------------------------------------------------------------
 %colors
@@ -119,7 +121,7 @@
     \advance\@tempdima by\beamer@rightmargin%
     \vspace*{-13pt} %%%%%%%%%%%%% For example insert shift to right
     % \hspace*{-8.1pt} %%%%%%%%%%%%% For example insert shift to right
-    \begin{beamercolorbox}[sep=.43cm,center,wd=\the\@tempdima]{frametitle}
+    \begin{beamercolorbox}[sep=.435cm,center,wd=\the\@tempdima]{frametitle}
         \usebeamerfont{frametitle}%
         \vbox{}\vskip-1ex%
         \if@tempswa\else\csname beamer@ftecenter\endcsname\fi%
@@ -468,5 +470,30 @@ coltitle=sblau,
 	\end{center}
 	\vfill
 \end{frame}
-\end{document}
 
+\setbeamercolor{background canvas}{bg=praxis!35!white}
+\setbeamercolor{frametitle}{fg=praxis!35!white,bg=titlebg}
+
+\begin{frame}{Modelchecking in Aktion}
+	\begin{tcolorbox}[
+			colframe = praxis,
+			colback=white,
+			valign=center,
+			halign = center,
+			left=-18pt,
+			right=-18pt,
+			top=0pt,
+			bottom=0pt,
+			boxsep=0pt,
+			left skip = 20pt,
+			right skip = 20pt,
+			% sharp corners,
+			arc = 0mm,
+			boxrule = 4pt,
+		]
+		\movie[width=.877\textwidth]
+		{\includegraphics[width=.9\textwidth]{../sources/transparent.png}}{../sources/recording.mkv}
+	\end{tcolorbox}
+
+\end{frame}
+\end{document}
