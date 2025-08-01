@@ -1,0 +1,353 @@
+\documentclass[11pt]{beamer}
+\usepackage[ngerman]{babel}
+\beamertemplatenavigationsymbolsempty
+\useoutertheme[subsection=false]{miniframes}
+%\usefonttheme{professionalfonts} % using non standard fonts for beamer
+\setbeamertemplate{footline}[frame number]{}
+\setbeamersize{text margin left=-5pt,text margin right=-5pt} 
+
+\usepackage[T1]{fontenc}
+
+\usepackage{mathtools}
+\usepackage{amsfonts, amsmath, amssymb, amsthm}
+\usepackage{pifont}
+\usepackage{ wasysym }
+\usepackage{MnSymbol}
+\usepackage{xspace}
+\usepackage{ stmaryrd }
+\usepackage{bbold} %for mathbb 1
+\usepackage{chngcntr}
+
+\usepackage{graphicx}
+
+\usepackage{pgf, tikz}
+\usetikzlibrary{automata, arrows, arrows.meta, positioning, decorations.pathreplacing, decorations.pathmorphing}
+\usepackage{varwidth}
+\usepackage{color}
+\usepackage{geometry}
+\usepackage{tcolorbox}
+\tcbuselibrary{xparse}
+\usepackage{multirow}
+\setbeamersize{text margin left=12.5mm,text margin right=10mm}
+%---------------------------------------------------------------
+%colors
+
+%base colors
+\definecolor{wblau}{HTML}{B1D9EE}
+\definecolor{blau}{HTML}{569BC0}
+\definecolor{sblau}{HTML}{1E6B94}
+\definecolor{worange}{HTML}{FFDFBA}
+\definecolor{orange}{HTML}{FFBB6B}
+\definecolor{sorange}{HTML}{E98F25}
+\definecolor{gelb}{HTML}{c44848}
+
+\definecolor{wgelb}{HTML}{F9E79F}
+
+\definecolor{theorie}{HTML}{db6b94}
+\definecolor{praxis}{HTML}{FFBB6B}
+\definecolor{zukunft}{HTML}{569BC0}
+%highlighting
+\definecolor{wgruen}{HTML}{CAEA9C}
+\definecolor{gruen}{HTML}{8FC542}
+\definecolor{sgruen}{HTML}{2E4E00}
+\definecolor{wviolett}{HTML}{D68FAF}
+\definecolor{violett}{HTML}{B43C73}
+\definecolor{sviolett}{HTML}{470021}
+
+\definecolor{rot}{rgb}{.8,0,0}
+\definecolor{rot2}{HTML}{E27D60}
+
+\definecolor{turkis}{rgb}{0,.7,.7}
+
+\definecolor{grau}{rgb}{0.47,0.47,0.47}
+\definecolor{grau2}{rgb}{0.2,0.2,0.2}
+
+\definecolor{titlebg}{HTML}{213845}
+\definecolor{titlefg}{HTML}{F7E1C8}
+
+%---------------------------------------------------------------------------
+
+\usetheme{Singapore}
+%	AnnArbor | Antibes | Bergen |
+%	Berkeley | Berlin | Boadilla |
+%	boxes | CambridgeUS | Copenhagen |
+%	Darmstadt | default | Dresden |
+%	Frankfurt | Goettingen |Hannover |
+%	Ilmenau | JuanLesPins | Luebeck |
+%	Madrid | Malmoe | Marburg |
+%	Montpellier | PaloAlto | Pittsburgh |
+%	Rochester | Singapore | Szeged |
+%	Warsaw
+\usecolortheme{beaver}
+%	albatross | beaver | beetle |
+%	crane | default | dolphin |
+%	dove | fly | lily | orchid |
+%	rose |seagull | seahorse |
+%	sidebartab | structure |
+%	whale | wolverine
+%\usefonttheme{professionalfonts}
+%	default | professionalfonts | serif |
+%	structurebold | structureitalicserif |
+%	structuresmallcapsserif
+%\useinnertheme{rectangles}
+%	circles | default | inmargin |
+%	rectangles | rounded
+%\useoutertheme{infolines}
+%	default | infolines | miniframes |
+%	shadow | sidebar | smoothbars |
+%	smoothtree | split | tree
+\makeatletter
+\AtBeginDocument{%
+  {
+    \usebeamercolor{section in head/foot}
+  }
+  \pgfdeclareverticalshading{beamer@headfade}{\paperwidth}
+  {%
+    color(0cm)=(white);
+    color(1.25cm)=(white)%
+  }
+  \setbeamercolor{section in head/foot}{bg=}
+}
+\addtoheadtemplate{\pgfuseshading{beamer@headfade}\vskip-1.25cm}{}
+\makeatother
+
+\makeatletter
+\setbeamertemplate{frametitle}{
+    \ifbeamercolorempty[bg]{frametitle}{}{\nointerlineskip}%
+    \@tempdima=\textwidth%
+    \advance\@tempdima by\beamer@leftmargin%
+    \advance\@tempdima by\beamer@rightmargin%
+    \vspace*{-13pt} %%%%%%%%%%%%% For example insert shift to right
+    % \hspace*{-8.1pt} %%%%%%%%%%%%% For example insert shift to right
+    \begin{beamercolorbox}[sep=.43cm,center,wd=\the\@tempdima]{frametitle}
+        \usebeamerfont{frametitle}%
+        \vbox{}\vskip-1ex%
+        \if@tempswa\else\csname beamer@ftecenter\endcsname\fi%
+        \strut\insertframetitle\strut\par%
+        {%
+            \ifx\insertframesubtitle\@empty%
+            \else%
+            {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle\strut\par}%
+            \fi
+        }%
+        \vskip-1ex%
+        \if@tempswa\else\vskip-.3cm\fi% set inside beamercolorbox... evil here...
+    \end{beamercolorbox}%
+}
+\makeatother
+\setbeamercolor{frametitle}{fg=titlefg,bg=titlebg}
+\setbeamercolor{title}{fg=titlefg,bg=titlebg}
+%------------------------------------------------------------------
+%boxes
+\newtcolorbox{obox}[1][]{
+colframe=worange,
+colback=worange,
+left=5pt,
+right=5pt,
+#1
+}
+\newtcolorbox{bbox}[1][]{
+colframe=wblau,
+colback=wblau,
+left=5pt,
+right=5pt,
+#1
+}
+
+\DeclareTColorBox{tbox}{ O{} m }{
+colframe=white,
+colback=white,
+grow to left by=0.8cm,
+grow to right by=0.15cm,
+leftupper=.8cm,
+title=#2,
+coltitle=sorange,
+#1
+}
+\DeclareTColorBox{dbox}{ O{} m }{
+colframe=white,
+colback=white,
+grow to left by=0.8cm,
+grow to right by=0.15cm,
+leftupper=.8cm,
+title=#2,
+coltitle=sblau,
+#1
+}
+
+\newcommand*\titem{%
+  \item[\color{orange}{\textbullet}]}
+\newcommand*\ditem{%
+  \item[\color{blau}{\textbullet}]}
+  \newcommand*\nitem{%
+  \item[\color{titlebg}{\textbullet}]}
+
+
+%---------------------------------------------------------------------------
+\pgfdeclarelayer{TransLayer}
+\pgfsetlayers{TransLayer,main}
+
+\tikzset{
+  AutomatonState/.style = {
+      inner sep = 0pt,
+      line width = 4pt,
+      draw = titlebg!75!white,
+      minimum size = 20pt,
+      initial text = {Start},
+      initial where = left,
+      accepting/.style = {
+        accepting by arrow,
+        accepting text = {Ende},
+        accepting where = right,
+    },
+  },
+  AutomatonEdge/.style={
+      draw=titlebg,
+      -{Stealth[inset=0pt, width=5pt, length=5pt]},
+      >={Stealth[inset=0pt, width=5pt,length=5pt]},
+      shorten >=0pt,
+      shorten <=-.5pt,
+      line width=2pt,
+  },
+  AutomatonLabel/.style={ text=black, scale=1.2},
+  Automaton/.style = {
+      node distance=22mm,
+      on grid,
+      >=Latex,
+      initial text=,
+      initial where=below left,
+      every node/.style={AutomatonLabel},
+      every state/.style = {AutomatonState},
+      every edge/.style = {AutomatonEdge},
+  },
+}
+%---------------------------------------------------------------------------
+\newcommand{\ca}{A^*_c}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\ma}{A^*}
+\newcommand{\cont}{\mathop{c}}
+\newcommand{\decont}{\mathop{\reflectbox{c}}}
+
+\newcommand{\ini}{\mathop{in}}
+\newcommand{\wt}{\mathop{wt}}
+\newcommand{\out}{\mathop{out}}
+
+\newcommand{\ldl}{\text{LDL}}
+\newcommand{\wldl}{\ifmmode\text{wLDL}\else$\text{wLDL}$\fi\xspace}
+\newcommand{\wldlp}{\ifmmode{\text{wLDL}}^{\mkern-3mu+}\else${\text{wLDL}}^{\mkern-3mu+}$\fi}
+\newcommand{\wafa}{\ifmmode \text{WAFA} \else WAFA \fi}
+\newcommand{\mso}{\ifmmode \text{MSO} \else MSO \fi}
+\newcommand{\lvl}{\ifmmode \text{LvlA}\else LvlA\fi\xspace}
+
+\newcommand{\ser}[1]{S\langle#1\rangle}
+\newcommand{\chr}[1]{\mathbb{1}_{#1}}
+\newcommand{\bhv}[1]{\llbracket #1 \rrbracket}
+\newcommand{\ms}[1]{\{\mkern-7mu\{#1\}\mkern-7mu\}}
+\newcommand{\sem}[1]{\scalebox{.85}{|}\mkern-2mu\scalebox{.85}{|}#1\scalebox{.85}{|}\mkern-2mu\scalebox{.85}{|}}
+\newcommand{\tsem}[1]{\scalebox{.85}{(}\mkern-4mu\scalebox{.85}{(}#1\scalebox{.85}{)}\mkern-4mu\scalebox{.85}{)}}
+\newcommand{\asem}[1]{\{\mkern-4mu|#1|\mkern-4mu\}}
+\newcommand{\csem}[2]{\sem{#2}_{#1}}
+
+\newcommand{\fend}{\text{end}}
+\newcommand{\fedge}{\text{E}}
+\newcommand{\ftrue}{\text{true}}
+\newcommand{\ffalse}{\text{false}}
+\newcommand{\co}{%
+  \mathbin{%
+    \vcenter{\offinterlineskip
+      \vspace{4.6pt}%
+      \ialign{##\cr$\cdot$\cr\noalign{\kern-1pt}$\mkern-.6mu,$\cr}%
+    }%
+  }%
+}
+
+\newcommand{\comp}{\mathbin{\ooalign{$\hidewidth ;\hidewidth$\cr$\phantom{+}$}}}
+\newcommand{\colordot}[1]{\tikz{\fill[opacity=0.8, #1] (0,0) circle (2pt);}}
+\newcommand{\gr}[1]{\textcolor{gruen}{#1}}
+\newcommand{\vi}[1]{\textcolor{violett}{#1}}
+\newcommand{\bl}[1]{\textcolor{blau}{#1}}
+\newcommand{\bra}[1]{\raisebox{-1pt}{\scalebox{1.1}{\textless}}\mkern+2mu #1\mkern+2mu \raisebox{-1pt}{\scalebox{1.1}{\textgreater}}\mkern+5mu}
+\newcommand{\ubra}[1]{\raisebox{-1pt}{\scalebox{1.1}{[}}\mkern+2mu #1\mkern+2mu \raisebox{-1pt}{\scalebox{1.1}{]}}\mkern+5mu}
+\mathtoolsset{centercolon=true}
+
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+\newcommand{\high}[3]{\only<-\number\numexpr#1-1\relax>{#3}\only<#1->{\textcolor{#2}{#3}}}
+\newcommand{\shigh}[4]{\only<-\number\numexpr#1-1\relax,\number\numexpr#2+1\relax->{#4}\only<#1-#2>{\textcolor{#3}{#4}}}
+ 
+
+%---------------------------------------------------------------------------
+\title{Nutzen der Automatentheorie zur Verbesserung der Sicherheit durch Verifikation in IT-Systemen von KRITIS-Betreibern}
+\author{Gustav Grabolle}
+ \date{%
+    Halle\\
+    August 4, 2025
+}
+%---------------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}
+	\begin{tcolorbox}[ colframe=theorie, colback=theorie!35!white, height=2.3cm, valign = center, ]
+		\huge
+		\begin{center}
+			Theoretische Grundlagen
+		\end{center}
+	\end{tcolorbox}
+
+	\vfill
+
+	\begin{tcolorbox}[ colframe=praxis, colback=praxis!35!white, height=2.3cm, valign = center, ]
+		\huge
+		\begin{center}
+			Praktische Einsicht
+		\end{center}
+	\end{tcolorbox}
+
+
+	\vfill
+
+	\begin{tcolorbox}[ colframe=zukunft, colback=zukunft!35!white, height=2.3cm, valign = center, ]
+		\huge
+		\begin{center}
+			KRITIS Einsatz
+		\end{center}
+	\end{tcolorbox}
+\end{frame}
+
+\setbeamercolor{background canvas}{bg=theorie!35!white}
+\setbeamercolor{frametitle}{fg=theorie!35!white,bg=titlebg}
+
+\begin{frame}{Was sind diese Automaten?}
+	\begin{minipage}{\textwidth}
+		\begin{tcolorbox}[colframe=theorie, colback=white, valign=center, halign=center]
+			$\text{A} \mathrel{\hat{=}} \text{Aufnahme}$ \hfill
+			$\text{B} \mathrel{\hat{=}} \text{Bearbeitung}$ \hfill
+			$\text{E} \mathrel{\hat{=}} \text{Einreichung}$
+		\end{tcolorbox}
+	\end{minipage}
+
+	\vspace{10pt}
+
+	\begin{minipage}{.5\textwidth}
+		\begin{tcolorbox}[colframe=theorie, colback=white, valign=center, halign=center]
+			\begin{tikzpicture}[Automaton,]
+				\node[state,initial, accepting] (q1) at (0,0) {};
+				\node[state] (q2) [below of = q1] {};
+
+				\draw[->] (q1) edge[bend left] node[AutomatonLabel, right]{A} (q2);
+				\draw[->] (q2) edge[loop below] node[AutomatonLabel, below] {B} (q2);
+				\draw[->] (q2) edge[bend left] node[AutomatonLabel, left]{E} (q1);
+			\end{tikzpicture}
+		\end{tcolorbox}
+	\end{minipage}
+\end{frame}
+
+\end{document}
+
