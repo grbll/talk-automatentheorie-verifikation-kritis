@@ -290,6 +290,7 @@ coltitle=sblau,
 }
 \newcommand{\high}[3]{\only<-\number\numexpr#1-1\relax>{#3}\only<#1->{\textcolor{#2}{#3}}}
 \newcommand{\shigh}[4]{\only<-\number\numexpr#1-1\relax,\number\numexpr#2+1\relax->{#4}\only<#1-#2>{\textcolor{#3}{#4}}}
+\newcommand{\light}[2]{\shigh{#1}{#1}{gruen}{#2}}
  
 
 %---------------------------------------------------------------------------
@@ -339,9 +340,9 @@ coltitle=sblau,
 \begin{frame}{Was sind diese Automaten?}
 	\begin{minipage}{\textwidth}
 		\begin{tcolorbox}[colframe=theorie, colback=white, valign=center, halign=center]
-			$\text{A} \mathrel{\hat{=}} \text{Aufnahme}$ \hfill
-			$\text{B} \mathrel{\hat{=}} \text{Bearbeitung}$ \hfill
-			$\text{E} \mathrel{\hat{=}} \text{Einreichung}$
+			\visible<15->{$\text{\light{15}{A}} \mathrel{\hat{=}} \text{Aufnahme}$} \hfill
+			\visible<16->{$\text{\light{16}{B}} \mathrel{\hat{=}} \text{Bearbeitung}$} \hfill
+			\visible<17->{$\text{\light{17}{E}} \mathrel{\hat{=}} \text{Einreichung}$}
 		\end{tcolorbox}
 	\end{minipage}
 
@@ -354,9 +355,16 @@ coltitle=sblau,
 				\node[state,initial, accepting] (q1) at (0,0) {};
 				\node[state] (q2) [below of = q1] {};
 
-				\draw[->] (q1) edge[bend left] node[AutomatonLabel, right]{A} (q2);
-				\draw[->] (q2) edge[loop below] node[AutomatonLabel, below] {B} (q2);
-				\draw[->] (q2) edge[bend left] node[AutomatonLabel, left]{E} (q1);
+				\draw[->] (q1) edge[bend left] node[AutomatonLabel, right]{\light{15}{A}} (q2);
+				\draw[->] (q2) edge[loop below] node[AutomatonLabel, below] {\light{16}{B}} (q2);
+				\draw[->] (q2) edge[bend left] node[AutomatonLabel, left]{\light{17}{E}} (q1);
+
+				\only<3,6,9>{\draw[fill=gruen, draw=none] (q1) circle (7pt);}
+				\only<4,5,10>{\draw[fill=gruen, draw=none] (q2) circle (7pt);}
+				\only<11>{\draw[fill=rot2, draw=none] (q2) circle (7pt);}
+				\only<4,10>{\draw[->] (q1) edge[bend left, draw = gruen] node[AutomatonLabel, right]{A} (q2);}
+				\only<5>{\draw[->] (q2) edge[loop below, draw = gruen] node[AutomatonLabel, below] {B} (q2);}
+				\only<6>{\draw[->] (q2) edge[bend left, draw = gruen] node[AutomatonLabel, left]{E} (q1);}
 			\end{tikzpicture}
 		\end{tcolorbox}
 	\end{minipage}%
@@ -366,18 +374,20 @@ coltitle=sblau,
 	\begin{minipage}{.48\textwidth}%
 		\begin{tcolorbox}[colframe=theorie, colback=white, valign=center, halign=center, height=60pt]
 			\begin{tabular}{lc}
-				ABE   & \yes \\
-				AAE   & \no  \\
-				ABEAE & \yes \\
+				\visible<2->{\light{4}{A}\light{5}{B}\light{6}{E}}  & \visible<7->{\yes}  \\
+				\visible<8->{\light{10}{A}\shigh{11}{11}{rot2}{A}E} & \visible<12->{\no}  \\
+				\visible<13->{ABEAE}                                & \visible<14->{\yes} \\
 			\end{tabular}
 		\end{tcolorbox}
 		\begin{tcolorbox}[colframe=theorie, colback=white, height=103pt, valign=center, boxsep=0pt]
 			\scriptsize
-			\textit{%
-				Jede Aufnahme benötigt eine Einreichung, bevor eine neue Aufnahme erfolgt.
+			\visible<19->{
+				\textit{%
+					Jede Aufnahme benötigt eine Einreichung, bevor eine neue Aufnahme erfolgt.
+				}
 			}
 			\vfill
-			\[|u|_A = |u|_E \text{ oder } |u|_A = |u|_E + 1\]
+			\visible<20->{\[|u|_A = |u|_E \text{ oder } |u|_A = |u|_E + 1\]}
 		\end{tcolorbox}
 	\end{minipage}
 \end{frame}
