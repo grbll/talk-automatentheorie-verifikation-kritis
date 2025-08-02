@@ -496,4 +496,112 @@ coltitle=sblau,
 	\end{tcolorbox}
 
 \end{frame}
+
+
+\setbeamercolor{background canvas}{bg=zukunft!35!white}
+\setbeamercolor{frametitle}{fg=zukunft!35!white,bg=titlebg}
+
+\begin{frame}{Modelchecking im Finanzwesen}
+
+\end{frame}
+
+
+\begin{frame}{Modelchecking in Bahnsteuerungssystemen}
+
+\end{frame}
+
+\begin{frame}{Kosten der Softwareverifikation}
+	\vfill
+	\begin{center}
+		\begin{tikzpicture}[
+				node distance=0.8cm and 1cm,
+				theorie/.style={blue!70!black},
+				box/.style={
+						draw=theorie,
+						fill=white,
+						line width=1.5pt,
+						rounded corners=3pt,
+						minimum width=9cm,
+						minimum height=2.4cm,
+						align=center,
+						inner sep=3pt,
+						font=\normalsize,
+						text centered,
+						anchor=north west,
+					},
+				subbox/.style={
+						draw=theorie,
+						fill=white,
+						line width=1.5pt,
+						inner sep=0pt,
+						minimum height=0.8cm,
+						text centered,
+						font=\normalsize,
+						anchor=north west,
+					},
+				doublearrow/.style={
+						<->, thick, theorie,
+					},
+			]
+
+			% Überschrift oben
+			\node[font=\bfseries] (softwarelabel) at (0,3.2) {Software};
+
+			% Oberes Rechteck
+			\node[box] (softwarebox) at (0,0) {};
+
+			% Breite des äußeren Rechtecks und Breite der drei inneren Teile
+			\def\outerwidth{9}
+			\def\outerheight{2.4}
+			\def\innerwidth{\outerwidth/3}
+			\def\innerheight{\outerheight}
+
+			% Drei innere Teile oben (Programm 1, 2, 3)
+			\foreach \i/\text in {0/Programm 1,1/Programm 2,2/Programm 3} {
+			\node[subbox, minimum width=\innerwidth cm, minimum height=\innerheight cm]
+			(at={($(softwarebox.north west) + (\i*\innerwidth cm,0)$)}) {\textbf{\text}};
+			}
+
+			% Vertikale Linien zur Unterteilung (parallel und durchgehend)
+			\draw[theorie, line width=1.5pt]
+			($(softwarebox.north west) + (3cm,0)$) -- ($(softwarebox.south west) + (3cm,0)$);
+			\draw[theorie, line width=1.5pt]
+			($(softwarebox.north west) + (6cm,0)$) -- ($(softwarebox.south west) + (6cm,0)$);
+
+			% Unteres Rechteck (Verifikation)
+			\node[box, anchor=north west] (verifikationsbox) at (0,-3.5) {};
+
+			% Drei innere Teile unten (Zertifikat 1, 2, 3)
+			\foreach \i/\text in {0/Zertifikat 1,1/Zertifikat 2,2/Zertifikat 3} {
+			\node[subbox, minimum width=\innerwidth cm, minimum height=\innerheight cm]
+			(at={($(verifikationsbox.north west) + (\i*\innerwidth cm,0)$)}) {\textbf{\text}};
+			}
+
+			% Vertikale Linien zur Unterteilung unten
+			\draw[theorie, line width=1.5pt]
+			($(verifikationsbox.north west) + (3cm,0)$) -- ($(verifikationsbox.south west) + (3cm,0)$);
+			\draw[theorie, line width=1.5pt]
+			($(verifikationsbox.north west) + (6cm,0)$) -- ($(verifikationsbox.south west) + (6cm,0)$);
+
+			% Überschrift unten
+			\node[font=\bfseries] (verificationlabel) at (4.5,-6.2) {Verifikation};
+
+			% Doppelpfeile zwischen korrespondierenden Teilen
+			\foreach \x in {1.5,4.5,7.5} {
+					\draw[doublearrow]
+					($(softwarebox.south west) + (\x cm,0)$) --
+					($(verifikationsbox.north west) + (\x cm,0)$);
+				}
+
+		\end{tikzpicture}
+	\end{center}
+	\vfill
+\end{frame}
+\begin{frame}{Der Preis der Sicherheit}
+
+\end{frame}
+
+\begin{frame}{Who will check the checkmen?}
+
+\end{frame}
 \end{document}
