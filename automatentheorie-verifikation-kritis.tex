@@ -1,36 +1,24 @@
 \documentclass[11pt]{beamer}
-\usepackage{multimedia}
+\usepackage[T1]{fontenc}
 \usepackage[ngerman]{babel}
 \beamertemplatenavigationsymbolsempty
 \useoutertheme[subsection=false]{miniframes}
-%\usefonttheme{professionalfonts} % using non standard fonts for beamer
 \setbeamertemplate{footline}[frame number]{}
-\setbeamersize{text margin left=-5pt,text margin right=-5pt} 
+\setbeamersize{text margin left=12.5mm,text margin right=10mm}
 
-\usepackage[T1]{fontenc}
-
-\usepackage{mathtools}
-\usepackage{amsfonts, amsmath, amssymb, amsthm}
-\usepackage{pifont}
-\usepackage{ wasysym }
-\usepackage{MnSymbol}
-\usepackage{xspace}
-\usepackage{ stmaryrd }
-\usepackage{bbold} %for mathbb 1
-\usepackage{chngcntr}
 
 \usepackage{graphicx}
 
 \usepackage{pgf, tikz}
 \usetikzlibrary{shapes, automata, arrows, arrows.meta, positioning, decorations.pathreplacing, decorations.pathmorphing, calc, fit}
-\usepackage{varwidth}
-\usepackage{color}
-\usepackage{geometry}
+\usepackage{mathtools}
+
 \usepackage[most]{tcolorbox}
 \tcbuselibrary{xparse}
-\usepackage{multirow}
+\usepackage{color}
 
-\setbeamersize{text margin left=12.5mm,text margin right=10mm}
+\usepackage{multimedia}
+
 %---------------------------------------------------------------
 %colors
 
@@ -139,52 +127,6 @@
 \makeatother
 \setbeamercolor{frametitle}{fg=titlefg,bg=titlebg}
 \setbeamercolor{title}{fg=titlefg,bg=titlebg}
-%------------------------------------------------------------------
-%boxes
-\newtcolorbox{obox}[1][]{
-colframe=worange,
-colback=worange,
-left=5pt,
-right=5pt,
-#1
-}
-\newtcolorbox{bbox}[1][]{
-colframe=wblau,
-colback=wblau,
-left=5pt,
-right=5pt,
-#1
-}
-
-\DeclareTColorBox{tbox}{ O{} m }{
-colframe=white,
-colback=white,
-grow to left by=0.8cm,
-grow to right by=0.15cm,
-leftupper=.8cm,
-title=#2,
-coltitle=sorange,
-#1
-}
-\DeclareTColorBox{dbox}{ O{} m }{
-colframe=white,
-colback=white,
-grow to left by=0.8cm,
-grow to right by=0.15cm,
-leftupper=.8cm,
-title=#2,
-coltitle=sblau,
-#1
-}
-
-\newcommand*\titem{%
-  \item[\color{orange}{\textbullet}]}
-\newcommand*\ditem{%
-  \item[\color{blau}{\textbullet}]}
-  \newcommand*\nitem{%
-  \item[\color{titlebg}{\textbullet}]}
-
-
 %---------------------------------------------------------------------------
 \pgfdeclarelayer{TransLayer}
 \pgfsetlayers{TransLayer,main}
@@ -228,49 +170,9 @@ coltitle=sblau,
   },
 }
 %---------------------------------------------------------------------------
-\newcommand{\ca}{A^*_c}
-\newcommand{\A}{\mathcal{A}}
-\newcommand{\ma}{A^*}
-\newcommand{\cont}{\mathop{c}}
-\newcommand{\decont}{\mathop{\reflectbox{c}}}
-
-\newcommand{\ini}{\mathop{in}}
-\newcommand{\wt}{\mathop{wt}}
-\newcommand{\out}{\mathop{out}}
-
-\newcommand{\ldl}{\text{LDL}}
-\newcommand{\wldl}{\ifmmode\text{wLDL}\else$\text{wLDL}$\fi\xspace}
-\newcommand{\wldlp}{\ifmmode{\text{wLDL}}^{\mkern-3mu+}\else${\text{wLDL}}^{\mkern-3mu+}$\fi}
-\newcommand{\wafa}{\ifmmode \text{WAFA} \else WAFA \fi}
-\newcommand{\mso}{\ifmmode \text{MSO} \else MSO \fi}
-\newcommand{\lvl}{\ifmmode \text{LvlA}\else LvlA\fi\xspace}
-
-\newcommand{\ser}[1]{S\langle#1\rangle}
-\newcommand{\chr}[1]{\mathbb{1}_{#1}}
-\newcommand{\bhv}[1]{\llbracket #1 \rrbracket}
-\newcommand{\ms}[1]{\{\mkern-7mu\{#1\}\mkern-7mu\}}
-\newcommand{\sem}[1]{\scalebox{.85}{|}\mkern-2mu\scalebox{.85}{|}#1\scalebox{.85}{|}\mkern-2mu\scalebox{.85}{|}}
-\newcommand{\tsem}[1]{\scalebox{.85}{(}\mkern-4mu\scalebox{.85}{(}#1\scalebox{.85}{)}\mkern-4mu\scalebox{.85}{)}}
-\newcommand{\asem}[1]{\{\mkern-4mu|#1|\mkern-4mu\}}
-\newcommand{\csem}[2]{\sem{#2}_{#1}}
-
-\newcommand{\fend}{\text{end}}
-\newcommand{\fedge}{\text{E}}
-\newcommand{\ftrue}{\text{true}}
-\newcommand{\ffalse}{\text{false}}
-\newcommand{\co}{%
-  \mathbin{%
-    \vcenter{\offinterlineskip
-      \vspace{4.6pt}%
-      \ialign{##\cr$\cdot$\cr\noalign{\kern-1pt}$\mkern-.6mu,$\cr}%
-    }%
-  }%
-}
-
 \newcommand{\colorcircle}[1]{%
   \raisebox{0.25ex}{\tikz{\draw[line width=2pt, color=#1] (0,0) circle (2pt);}}%
 }
-
 \newcommand{\colorcross}[1]{%
   \raisebox{0.25ex}{\tikz{
     \draw[line width=2pt, color=#1] (-2pt,-2pt) -- (2pt,2pt);
@@ -279,21 +181,10 @@ coltitle=sblau,
 }
 \newcommand{\yes}{\colorcircle{gruen}}
 \newcommand{\no}{\colorcross{rot2}}
-\newcommand{\comp}{\mathbin{\ooalign{$\hidewidth ;\hidewidth$\cr$\phantom{+}$}}}
-\newcommand{\colordot}[1]{\tikz{\fill[opacity=0.8, #1] (0,0) circle (2pt);}}
+
 \newcommand{\gr}[1]{\textcolor{gruen}{#1}}
 \newcommand{\vi}[1]{\textcolor{violett}{#1}}
-\newcommand{\bl}[1]{\textcolor{blau}{#1}}
-\newcommand{\bra}[1]{\raisebox{-1pt}{\scalebox{1.1}{\textless}}\mkern+2mu #1\mkern+2mu \raisebox{-1pt}{\scalebox{1.1}{\textgreater}}\mkern+5mu}
-\newcommand{\ubra}[1]{\raisebox{-1pt}{\scalebox{1.1}{[}}\mkern+2mu #1\mkern+2mu \raisebox{-1pt}{\scalebox{1.1}{]}}\mkern+5mu}
-\mathtoolsset{centercolon=true}
 
-\newcommand\blfootnote[1]{%
-  \begingroup
-  \renewcommand\thefootnote{}\footnote{#1}%
-  \addtocounter{footnote}{-1}%
-  \endgroup
-}
 \newcommand{\high}[3]{\only<-\number\numexpr#1-1\relax>{#3}\only<#1->{\textcolor{#2}{#3}}}
 \newcommand{\shigh}[4]{\only<-\number\numexpr#1-1\relax,\number\numexpr#2+1\relax->{#4}\only<#1-#2>{\textcolor{#3}{#4}}}
 \newcommand{\light}[2]{\shigh{#1}{#1}{gruen}{#2}}
