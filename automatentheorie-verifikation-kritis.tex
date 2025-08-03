@@ -22,11 +22,11 @@
 \usepackage{graphicx}
 
 \usepackage{pgf, tikz}
-\usetikzlibrary{automata, arrows, arrows.meta, positioning, decorations.pathreplacing, decorations.pathmorphing, calc, fit}
+\usetikzlibrary{shapes, automata, arrows, arrows.meta, positioning, decorations.pathreplacing, decorations.pathmorphing, calc, fit}
 \usepackage{varwidth}
 \usepackage{color}
 \usepackage{geometry}
-\usepackage{tcolorbox}
+\usepackage[most]{tcolorbox}
 \tcbuselibrary{xparse}
 \usepackage{multirow}
 
@@ -221,6 +221,10 @@ coltitle=sblau,
       every node/.style={AutomatonLabel},
       every state/.style = {AutomatonState},
       every edge/.style = {AutomatonEdge},
+  },
+  Box/.style = {
+    line width = 1.5pt,
+    rounded corners = 2pt,
   },
 }
 %---------------------------------------------------------------------------
@@ -422,50 +426,50 @@ coltitle=sblau,
 
 			% Linke Spalte
 			\visible<1->{\node[box] (spec1) {\textbf{Spezifikation}};}
-			\visible<4->{\node[box, below=of spec1] (spec2) {Logik};}
-			\visible<5->{\node[box, below=of spec2] (spec3) {Automat $A_L$};}
+			\visible<2->{\node[box, below=of spec1] (spec2) {Logik};}
+			\visible<4->{\node[box, below=of spec2] (spec3) {Automat $A_L$};}
 
 			% Rechte Spalte
-			\visible<2->{\node[box, right=of spec1] (real1) {\textbf{Realisation}};}
-			\visible<6->{\node[box, below=of real1] (real2) {Programm};}
-			\visible<7->{\node[box, below=of real2] (real3) {Automat $A_P$};}
+			\visible<1->{\node[box, right=of spec1] (real1) {\textbf{Realisation}};}
+			\visible<2->{\node[box, below=of real1] (real2) {Programm};}
+			\visible<5->{\node[box, below=of real2] (real3) {Automat $A_P$};}
 
 			% Gleichheitszeichen zwischen spec1 und real1
-			\visible<3->{\node at ($(spec1)!0.5!(real1)$) {\light{11}{\huge$\mathrel{\hat{=}}$}};}
+			\visible<3->{\node at ($(spec1)!0.5!(real1)$) {\light{9}{\huge$\mathrel{\hat{=}}$}};}
 
 			% Pfeile
-			\visible<4->{\draw[arrow, AutomatonEdge] (spec1) -- (spec2);}
-			\visible<5->{\draw[arrow, AutomatonEdge] (spec2) -- (spec3);}
-			\visible<6->{\draw[arrow, AutomatonEdge] (real1) -- (real2);}
-			\visible<7->{\draw[arrow, AutomatonEdge] (real2) -- (real3);}
+			\visible<2->{\draw[arrow, AutomatonEdge] (spec1) -- (spec2);}
+			\visible<4->{\draw[arrow, AutomatonEdge] (spec2) -- (spec3);}
+			\visible<2->{\draw[arrow, AutomatonEdge] (real1) -- (real2);}
+			\visible<5->{\draw[arrow, AutomatonEdge] (real2) -- (real3);}
 
 			% Schnittfrage-Box
-			\visible<8->{
+			\visible<6->{
 				\node[fit=(spec3.east)(real3.west), inner sep=0pt] (fitbox) {};
 				\path let \p1 = (real3.east),
 				\p2 = (spec3.west),
 				\n1 = {\x1 - \x2} in
 				node[box, below=1.2cm of fitbox, minimum height=60pt, minimum width=\n1, text width=\n1-30pt] (check) {
-						\only<9->{
+						\only<7->{
 							\scriptsize
 							\textit{Gibt es einen erfolgreichen Lauf des Programmautomaten,\\ der kein erfolgreicher Lauf des Logikautomaten ist?}\\[10pt]
 							\normalsize
-							\only<-9>{
+							\only<-7>{
 								\phantom{
 									$L(A_P) \cap \overline{L(A_L)} = \emptyset$?
 								}
 							}
 						}
-						\only<10->{
+						\only<8->{
 							\normalsize
-							$L(A_P) \cap \overline{L(A_L)} = \emptyset$\light{11}{?}
+							$L(A_P) \cap \overline{L(A_L)} = \emptyset$\light{9}{?}
 						}
 					};
 			}
 
 			% Pfeile zur Schnittfrage
-			\visible<8->{\draw[arrow, AutomatonEdge] (spec3.south) -- (check.north -| spec3.south);}
-			\visible<8->{\draw[arrow, AutomatonEdge] (real3.south) -- (check.north -| real3.south);}
+			\visible<6->{\draw[arrow, AutomatonEdge] (spec3.south) -- (check.north -| spec3.south);}
+			\visible<6->{\draw[arrow, AutomatonEdge] (real3.south) -- (check.north -| real3.south);}
 		\end{tikzpicture}
 	\end{center}
 	\vfill
@@ -474,7 +478,7 @@ coltitle=sblau,
 \setbeamercolor{background canvas}{bg=praxis!35!white}
 \setbeamercolor{frametitle}{fg=praxis!35!white,bg=titlebg}
 
-\begin{frame}{Modelchecking in Aktion}
+\begin{frame}{Modelchecking in Aktion: Promela+LTL+Spin}
 	\begin{tcolorbox}[
 			colframe = praxis,
 			colback=white,
@@ -500,108 +504,279 @@ coltitle=sblau,
 
 \setbeamercolor{background canvas}{bg=zukunft!35!white}
 \setbeamercolor{frametitle}{fg=zukunft!35!white,bg=titlebg}
+\setbeamercolor{item}{fg=zukunft}
 
 \begin{frame}{Modelchecking im Finanzwesen}
-
+	\begin{minipage}[b][.7\textheight]{.5\textwidth}%
+		\visible<2->{
+			\begin{tcolorbox}[
+					colframe = zukunft,
+					left = 3pt,
+					right = 3pt,
+					right skip = 5pt,
+				]%
+				Model Checking and Verification of the Internet Payment System with \shigh{4}{7}{theorie}{SPIN}
+				\footnotetext{
+					\tiny
+					Wei Zhang et al., Journal of Software, Vol. 7, No. 9, September 2012.
+				}
+			\end{tcolorbox}
+			\vfill
+			\begin{tcolorbox}[
+					colframe = zukunft,
+					left = 3pt,
+					right = 3pt,
+					right skip = 5pt,
+				]
+				\scriptsize
+				Ergebnisse:
+				\begin{itemize}
+					\item<5-> Modell in Promela
+					\item<6-> Spezifikation in LTL
+					\item<7-> \gr{Erfolgreiche Verifikation des Modells}
+				\end{itemize}
+			\end{tcolorbox}
+		}
+	\end{minipage}%
+	\begin{minipage}[b][.7\textheight]{.5\textwidth}
+		\visible<3->{
+			\begin{tcolorbox}[
+					colframe = zukunft,
+					skin=enhanced,
+					interior style image = ./sources/massage-flow-format.png,
+					height = 100 pt,
+				]
+				% \includegraphics[height=90pt]{./sources/massage-flow.png}
+			\end{tcolorbox}%
+		}
+		\vfill
+		\visible<5->{
+			\begin{tcolorbox}[
+					colframe = zukunft,
+					skin=enhanced,
+					interior style image = ./sources/promela-channels.png,
+					height = 60 pt,
+				]
+			\end{tcolorbox}
+		}
+	\end{minipage}
 \end{frame}
 
 
-\begin{frame}{Modelchecking in Bahnsteuerungssystemen}
-
-\end{frame}
-
-\begin{frame}{Kosten der Softwareverifikation}
+\begin{frame}{Der Preis der Sicherheit}
 	\vfill
 	\begin{center}
 		\begin{tikzpicture}[
-				node distance=0.8cm and 1cm,
-				theorie/.style={blue!70!black},
-				box/.style={
-						draw=theorie,
-						fill=white,
-						line width=1.5pt,
-						rounded corners=3pt,
-						minimum width=9cm,
-						minimum height=2.4cm,
-						align=center,
-						inner sep=3pt,
-						font=\normalsize,
-						text centered,
-						anchor=north west,
-					},
-				subbox/.style={
-						draw=theorie,
-						fill=white,
-						line width=1.5pt,
-						inner sep=0pt,
-						minimum height=0.8cm,
-						text centered,
-						font=\normalsize,
-						anchor=north west,
-					},
-				doublearrow/.style={
-						<->, thick, theorie,
-					},
+				every node/.style = {
+						draw = zukunft!50!white,
+						line width =1.5pt,
+						fill = white,
+						inner sep = 0pt,
+					}
 			]
-
-			% Überschrift oben
-			\node[font=\bfseries] (softwarelabel) at (0,3.2) {Software};
-
-			% Oberes Rechteck
-			\node[box] (softwarebox) at (0,0) {};
-
-			% Breite des äußeren Rechtecks und Breite der drei inneren Teile
-			\def\outerwidth{9}
-			\def\outerheight{2.4}
-			\def\innerwidth{\outerwidth/3}
-			\def\innerheight{\outerheight}
-
-			% Drei innere Teile oben (Programm 1, 2, 3)
-			\foreach \i/\text in {0/Programm 1,1/Programm 2,2/Programm 3} {
-			\node[subbox, minimum width=\innerwidth cm, minimum height=\innerheight cm]
-			(at={($(softwarebox.north west) + (\i*\innerwidth cm,0)$)}) {\textbf{\text}};
+			\def\innerheight{35pt}
+			\def\innerwidth{90pt}
+			\def\sep{3pt}
+			\visible<2->{
+				\node[
+					rounded rectangle,
+					minimum height = \innerheight+2*\sep,
+					minimum width=3*\innerwidth+4*\sep,
+					draw = zukunft,
+				] (p) at (0,0) {};
+			}
+			\visible<4->{
+				\node[
+					rounded rectangle,
+					rounded rectangle right arc = none,
+					minimum height = \innerheight,
+					minimum width=\innerwidth
+				] (p1) at ($(p)-(\innerwidth+\sep,0)$) {Programm 1};
+			}
+			\visible<5->{
+				\node[
+					rounded rectangle,
+					rounded rectangle left arc = none,
+					rounded rectangle right arc = none,
+					minimum height = \innerheight,
+					minimum width=\innerwidth
+				] (p2) at (p) {Programm 2};
+			}
+			\visible<6->{
+				\node[
+					rounded rectangle,
+					rounded rectangle left arc = none,
+					minimum height = \innerheight,
+					minimum width=\innerwidth
+				] (p3) at ($(p)+(\innerwidth+\sep,0)$) {Programm 3};
+			}
+			\visible<3->{
+				\node[
+					rounded rectangle,
+					minimum height = \innerheight+2*\sep,
+					minimum width=3*\innerwidth+4*\sep,
+					draw = theorie,
+				] (v) at ($(p)-(0,2*\innerheight)$) {};
+			}
+			\visible<7->{
+				\node[
+					draw = theorie!50!white,
+					rounded rectangle,
+					rounded rectangle right arc = none,
+					minimum height = \innerheight,
+					minimum width=\innerwidth
+				] (v1) at ($(v)-(\innerwidth+\sep,0)$) {Zertifikat 1};
+			}
+			\visible<8->{
+				\node[
+					draw = theorie!50!white,
+					rounded rectangle,
+					rounded rectangle left arc = none,
+					rounded rectangle right arc = none,
+					minimum height = \innerheight,
+					minimum width=\innerwidth
+				] (v2) at (v) {Zertifikat 2};
+			}
+			\visible<9->{
+				\node[
+					draw = theorie!50!white,
+					rounded rectangle,
+					rounded rectangle left arc = none,
+					minimum height = \innerheight,
+					minimum width=\innerwidth
+				] (v3) at ($(v)+(\innerwidth+\sep,0)$) {Zertifikat 3};
 			}
 
-			% Vertikale Linien zur Unterteilung (parallel und durchgehend)
-			\draw[theorie, line width=1.5pt]
-			($(softwarebox.north west) + (3cm,0)$) -- ($(softwarebox.south west) + (3cm,0)$);
-			\draw[theorie, line width=1.5pt]
-			($(softwarebox.north west) + (6cm,0)$) -- ($(softwarebox.south west) + (6cm,0)$);
-
-			% Unteres Rechteck (Verifikation)
-			\node[box, anchor=north west] (verifikationsbox) at (0,-3.5) {};
-
-			% Drei innere Teile unten (Zertifikat 1, 2, 3)
-			\foreach \i/\text in {0/Zertifikat 1,1/Zertifikat 2,2/Zertifikat 3} {
-			\node[subbox, minimum width=\innerwidth cm, minimum height=\innerheight cm]
-			(at={($(verifikationsbox.north west) + (\i*\innerwidth cm,0)$)}) {\textbf{\text}};
+			\visible<2->{
+				\node[draw = none, fill = none, text = zukunft!70!black] (pp) [above of = p] {\large \bf{Software}};
+			}
+			\visible<3->{
+				\node[draw = none, fill = none, text = theorie!70!black] (vv) [below of = v] {\large \bf{Verifikation}};
 			}
 
-			% Vertikale Linien zur Unterteilung unten
-			\draw[theorie, line width=1.5pt]
-			($(verifikationsbox.north west) + (3cm,0)$) -- ($(verifikationsbox.south west) + (3cm,0)$);
-			\draw[theorie, line width=1.5pt]
-			($(verifikationsbox.north west) + (6cm,0)$) -- ($(verifikationsbox.south west) + (6cm,0)$);
-
-			% Überschrift unten
-			\node[font=\bfseries] (verificationlabel) at (4.5,-6.2) {Verifikation};
-
-			% Doppelpfeile zwischen korrespondierenden Teilen
-			\foreach \x in {1.5,4.5,7.5} {
-					\draw[doublearrow]
-					($(softwarebox.south west) + (\x cm,0)$) --
-					($(verifikationsbox.north west) + (\x cm,0)$);
-				}
-
+			\visible<7->{
+				\path (p1.south) edge[AutomatonEdge] (v1.north);
+			}
+			\visible<8->{
+				\path (p2.south) edge[AutomatonEdge] (v2.north);
+			}
+			\visible<9->{
+				\path (p3.south) edge[AutomatonEdge] (v3.north);
+			}
 		\end{tikzpicture}
 	\end{center}
 	\vfill
+	\visible<10->{
+		\begin{tcolorbox}[
+				colframe = zukunft,
+			]
+			Kosten Verifikation \hfill $
+				\underset{\visible<11->{\text{\huge\vi{>}}}}{\overset{\visible<12->{\text{\huge\gr{<}}}}{\phantom{.}}}
+			$ \hfill Kosten Systemausfall
+		\end{tcolorbox}
+	}
+	\vfill
 \end{frame}
-\begin{frame}{Der Preis der Sicherheit}
 
+\begin{frame}{Modelchecking in Bahnsteuerungssystemen}
+	\begin{minipage}[b][.7\textheight]{.5\textwidth}%
+		\visible<2->{
+			\begin{tcolorbox}[
+					colframe = zukunft,
+					left = 3pt,
+					right = 3pt,
+					right skip = 5pt,
+				]%
+				Proving Completeness of Properties in Formal Verification of Counting Heads for Railways
+				\footnotetext{
+					\tiny
+					Kinder, Sebastian, and Rolf Drechsler, 10th Euromicro Conference on Digital System Design Architectures, Methods and Tools (DSD 2007). IEEE, 2007.
+				}
+			\end{tcolorbox}
+		}
+		\vfill
+		\visible<5->{
+			\begin{tcolorbox}[
+					colframe = zukunft,
+					left = 3pt,
+					right = 3pt,
+					right skip = 5pt,
+				]
+				Verifikation in Minuten!
+			\end{tcolorbox}
+		}
+	\end{minipage}%
+	\begin{minipage}[b][.7\textheight]{.5\textwidth}
+		\visible<3->{
+			\begin{tcolorbox}[
+					colframe = zukunft,
+					skin=enhanced,
+					interior style image = ./sources/ch-fm-model.png,
+					height = 120 pt,
+				]
+				% \includegraphics[height=90pt]{./sources/massage-flow.png}
+			\end{tcolorbox}%
+		}
+		\vfill
+		\visible<4->{
+			\begin{tcolorbox}[
+					colframe = zukunft,
+					skin=enhanced,
+					interior style image = ./sources/full-model.png,
+					height = 40 pt,
+				]
+			\end{tcolorbox}
+		}
+	\end{minipage}
 \end{frame}
 
 \begin{frame}{Who will check the checkmen?}
-
+	\visible<2->{
+		\begin{tcolorbox}
+			[
+				colframe = zukunft,
+				left = -2pt,
+				right = 0pt,
+			]%
+			\vspace*{-10pt}
+			\begin{align*}%
+				 & \Box (
+				\text{notfall} \rightarrow
+				\Diamond \left(
+					\text{alarm} \land
+					\Box \left(
+						\text{alarm} \rightarrow
+						\bigcirc ( \text{alarm} \ \mathcal{U} \ \text{quittierung})
+						\right)
+				\right)                                                       \\
+				 & \land\
+				\Box \left(
+					\text{quittierung} \rightarrow
+					\mathcal{P} (\text{alarm})
+				\right)                                                       \\
+				 & \land\
+				\Box \left(
+					\text{alarm} \rightarrow
+					\bigcirc (\neg \text{alarm} \ \mathcal{U} \ \text{quittierung})
+				\right)                                                       \\
+				 & \land\
+				\Box \left(
+					\text{quittierung} \rightarrow
+					\bigcirc (\neg \text{alarm} \ \mathcal{U} \ \text{notfall})
+				\right)                                                       \\
+				 & \land\ \Diamond_{\leq 5} \left( \text{teamgerufen} \right) \\
+				 & \land\
+				\Box \left(
+					\text{quittierung} \rightarrow
+					\Diamond \left( \text{behebung} \land \text{grundzustand} \right)
+				\right))                                                      \\
+			\end{align*}
+		\end{tcolorbox}
+	}
+	\begin{center}
+		\visible<3->{
+			\huge \textcolor{theorie}{Wo ist der Fehler?}
+		}
+	\end{center}
 \end{frame}
 \end{document}
